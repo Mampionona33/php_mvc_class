@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../dist/style.css">
-    <title><?php echo isset($message) ? $message : "Title"; ?></title>
+    <title><?php echo isset($title) ? $title : "Title"; ?></title>
 </head>
 
 <body>
