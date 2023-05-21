@@ -4,6 +4,11 @@ error_reporting(E_ALL);
 ini_set('display_errors', '1');
 // ----------------------------
 
+// Inclure les fichiers nécessaires
+// require_once "./app/models/UserModel.php";
+require_once "controllers/UserController.php";
+
+
 $uri = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
 
 if (!isset($_SESSION["user"])) {
@@ -12,6 +17,10 @@ if (!isset($_SESSION["user"])) {
         exit();
     }
 }
+
+// Créer une instance de UserController
+$userController = new UserController();
+
 
 switch ($uri) {
     case '/':
@@ -27,15 +36,17 @@ switch ($uri) {
             exit();
         } else {
             // Afficher la page de connexion
-            include_once "./views/Login.php";
-            $title = Login()[0];
-            $content = Login()[1];
+            // include_once "./views/Login.php";
+            // $title = Login()[0];
+            // $content = Login()[1];
+            $userController->show_login_form();
         }
         break;
     case '/register':
-        include_once "./views/Register.php";
-        $title = Register()[0];
-        $content = Register()[1];
+        // include_once "./views/Register.php";
+        // $title = Register()[0];
+        // $content = Register()[1];
+        $userController->show_register_form();
         break;
     default:
         http_response_code(404);
