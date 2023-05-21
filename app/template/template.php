@@ -12,7 +12,7 @@
 <body>
     <div class="container">
         <?php echo isset($message) ? "<div class=\"message_container\">$message</div>" : null; ?>
-        <?php echo isset($erreur) ? "<div class=\"erreur_container\">$erreur</div>" : null; ?>
+        <?php echo isset($errorMessage) ? "<div class=\"erreur_container\">$errorMessage</div>" : null; ?>
         <?php echo isset($content) ? $content : null; ?>
     </div>
     <script src="../dist/app-bundle.js"></script>
