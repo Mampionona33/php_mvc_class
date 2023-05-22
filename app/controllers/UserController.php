@@ -29,26 +29,33 @@ class UserController
     function register_user()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Récupérer les données du formulaire
-            $name = $_POST['username'];
-            $email = $_POST['email'];
-            $password = $_POST['password'];
-            
-            // Valider les données ici si nécessaire
-            
-            // Créer un tableau avec les données
-            $data = [
-                'name' => $name,
-                'email' => $email,
-                'password' => $password,
-            ];
-            
-            // Appeler la méthode create_user du modèle
-            $user = $this->userModel->create_user($data);
-            if(count($user) > 0){
-                echo "User created successfully";
+
+            if(isset($_POST['username']) && isset($_POST['email']) 
+            && isset($_POST['password']) && $_POST['email'] !="" 
+            && $_POST['password'] != "" && $_POST['email']!= "" ){
+                // Récupérer les données du formulaire
+                $name = $_POST['username'];
+                $email = $_POST['email'];
+                $password = $_POST['password'];
+                
+                // Valider les données ici si nécessaire
+                
+                // Créer un tableau avec les données
+                $data = [
+                    'name' => $name,
+                    'email' => $email,
+                    'password' => $password,
+                ];
+                
+                // Appeler la méthode create_user du modèle
+                $user = $this->userModel->create_user($data);
+                if(count($user) > 0){
+                    echo "User created successfully";
+                }else{
+                    echo "Error on creating user";
+                }
             }else{
-                echo "Error on creating user";
+                echo "Information insufisant";
             }
         }
     }

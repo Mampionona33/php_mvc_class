@@ -21,20 +21,20 @@ class UserModel
         [
             'name' => 'email',
             'type' => 'VARCHAR(255)',
-            'required' => false,
+            'required' => true,
             'auto_increment' => false,
         ],
         [
             'name' => 'password',
             'type' => 'VARCHAR(255)',
-            'required' => false,
+            'required' => true,
             'auto_increment' => false,
         ],
         [
             'name' => 'role',
             'type' => 'ENUM',
             'values' => ['user','admin'],
-            'required' => false,
+            'required' => true,
             'auto_increment' => false,
         ],
     ];
