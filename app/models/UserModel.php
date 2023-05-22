@@ -1,5 +1,7 @@
 <?php
 require_once "../app/lib/create_table.php";
+require_once "../app/lib/create_data.php";
+
 class UserModel
 {
 
@@ -36,15 +38,19 @@ class UserModel
             'auto_increment' => false,
         ],
     ];
-    
+    public $nom_table = "users";
     
     function __construct()
-    {
+    {   
         $this->create_users_table();
     }
 
     function create_users_table()
     {
-       return create_table("users", $this->col);
+       return create_table($this->nom_table, $this->col);
+    }
+
+    function create_user($data){
+       return create_data($this->nom_table,$data);
     }
 }

@@ -5,7 +5,6 @@ class UserController
 {
     private $userModel;
 
-
     public function __construct()
     {
         $this->userModel = new UserModel;
@@ -26,4 +25,32 @@ class UserController
         $content = Login()[1];
         include_once "../app/template/template.php";
     }
+
+    function register_user()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Récupérer les données du formulaire
+            $name = $_POST['username'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            
+            // Valider les données ici si nécessaire
+            
+            // Créer un tableau avec les données
+            $data = [
+                'name' => $name,
+                'email' => $email,
+                'password' => $password,
+            ];
+            
+            // Appeler la méthode create_user du modèle
+            $user = $this->userModel->create_user($data);
+            if(count($user) > 0){
+                echo "User created successfully";
+            }else{
+                echo "Error on creating user";
+            }
+        }
+    }
+
 }
