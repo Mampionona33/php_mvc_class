@@ -35,17 +35,10 @@ switch ($uri) {
             header("Location: /dashboard");
             exit();
         } else {
-            // Afficher la page de connexion
-            // include_once "./views/Login.php";
-            // $title = Login()[0];
-            // $content = Login()[1];
             $userController->show_login_form();
         }
         break;
     case '/register':
-        // include_once "./views/Register.php";
-        // $title = Register()[0];
-        // $content = Register()[1];
         $userController->show_register_form();
         break;
     default:
@@ -54,4 +47,3 @@ switch ($uri) {
         break;
 }
 
-require_once "template/template.php";

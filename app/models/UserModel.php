@@ -1,5 +1,5 @@
 <?php
-require_once "../lib/create_table.php";
+require_once "../app/lib/create_table.php";
 class UserModel
 {
 
@@ -28,8 +28,16 @@ class UserModel
             'required' => false,
             'auto_increment' => false,
         ],
+        [
+            'name' => 'role',
+            'type' => 'ENUM',
+            'values' => ['user','admin'],
+            'required' => false,
+            'auto_increment' => false,
+        ],
     ];
-
+    
+    
     function __construct()
     {
         $this->create_users_table();
@@ -37,6 +45,6 @@ class UserModel
 
     function create_users_table()
     {
-        create_table("users", $this->col);
+       return create_table("users", $this->col);
     }
 }

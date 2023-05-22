@@ -1,5 +1,5 @@
 <?php
-require_once "../models/UserModel.php";
+require_once "../app/models/UserModel.php";
 
 class UserController
 {
@@ -11,17 +11,19 @@ class UserController
         $this->userModel = new UserModel;
     }
 
-    function show_registre_form()
+    function show_register_form()
     {
-        include_once "./app/views/Register.php";
+        include_once "../app/views/Register.php";
         $title = Register()[0];
         $content = Register()[1];
+        include_once "../app/template/template.php";
     }
-
+    
     function show_login_form()
     {
-        include_once "./app/views/Login.php";
+        include_once "../app/views/Login.php";
         $title = Login()[0];
         $content = Login()[1];
+        include_once "../app/template/template.php";
     }
 }
