@@ -20,6 +20,32 @@ class UserController
         $content = Login()[1];
         $this->pageHandler->setTitle($title);
         $this->pageHandler->setContent($content);
+
+        if($_SERVER['REQUEST_METHOD']==='POST'){
+            if(isset($_POST["username"]) && isset($_POST["password"])){
+                $name = $_POST["username"];
+                $password = $_POST["password"];
+                $user = $this->userModel->get_user_by_name_email(['name' => $name]);
+                if(count($user) > 0){
+                    $storedPasswordHash = $user[0]['password'];
+    
+                    // Vérifier si le mot de passe soumis correspond au hachage stocké
+                    if(password_verify($password, $storedPasswordHash)){
+                        // Mot de passe correct
+                        // Effectuer les actions appropriées après la connexion réussie
+                        // ...
+                        echo "Mot de passe correct. Connexion réussie.";
+                    }else{
+                        // Mot de passe incorrect
+                        echo "Mot de passe incorrect.";
+                    }
+                }else{
+                    // Utilisateur non trouvé
+                    echo "Utilisateur non trouvé.";
+                }
+            }
+        }
+
         $this->pageHandler->render();
     }
 
@@ -28,7 +54,6 @@ class UserController
         $content = Register()[1];
         $this->pageHandler->setTitle($title);
         $this->pageHandler->setContent($content);
-        
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if(

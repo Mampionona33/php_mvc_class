@@ -56,9 +56,19 @@ class UserModel
     }
 
     function get_user_by_name_email($new_user) {
-        $conditions = "name='" . $new_user['name'] . "' AND email='" . $new_user['email'] . "'";
+        $conditions = "";
+        if(isset($new_user["name"])){
+            $conditions .= "name='" . $new_user['name'] . "'";
+        }
+        if(isset($new_user['email'])){
+            if($conditions !== ""){
+                $conditions .= " AND ";
+            }
+            $conditions .= "email='" . $new_user['email'] . "'";
+        }
         $user_exist = get_data($this->nom_table, [], $conditions);
         return $user_exist;
     }
+    
     
 }

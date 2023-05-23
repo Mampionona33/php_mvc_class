@@ -28,13 +28,13 @@ switch ($uri) {
             http_response_code(200);
             $content = "Hello word";
         }
-        break;
+    break;
     case '/login':
         $userController->login();
-        break;
-        case '/register':
-            $userController->register();
-        break;
+    break;
+    case '/register':
+        $userController->register();
+    break;
     default:
         http_response_code(404);
         include_once "views/page_not_found.php";
