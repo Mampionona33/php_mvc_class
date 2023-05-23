@@ -5,36 +5,44 @@ ini_set('display_errors', '1');
 // ----------------------------
 
 // Inclure les fichiers nécessaires
-require_once "controllers/UserController.php";
+require_once "controllers/AuthController.php";
 
 // Démarrer la session
 session_start();
 
-$uri = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
+$pathname = $_SERVER["REQUEST_URI"];
+
+// Supprimer les éventuels paramètres de requête de la fin du pathname
+$pathname = strtok($pathname, '?');
 
 if (!isset($_SESSION["user"])) {
-    if ($uri !== '/login' && $uri !== '/register') {
+    if ($pathname !== '/login' && $pathname !== '/register') {
         header("Location: /login");
         exit();
     }
 }
 
-// Créer une instance de UserController
-$userController = new UserController();
+// Créer une instance de AuthController
+$authController = new AuthController();
 
-
-switch ($uri) {
+switch ($pathname) {
     case '/':
         if (isset($_GET)) {
             http_response_code(200);
             echo "Hello word";
         }
         break;
+    case '/user/':
+        echo "user dashboard";
+        break;
+    case '/admin/':
+        echo "admin dashboard";
+        break;
     case '/login':
-        $userController->login();
+        $authController->login();
         break;
     case '/register':
-        $userController->register();
+        $authController->register();
         break;
     default:
         http_response_code(404);

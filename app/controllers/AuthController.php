@@ -4,7 +4,7 @@ require_once "PageHandler.php";
 include_once "../app/views/Register.php";
 include_once "../app/views/Login.php";
 
-class UserController
+class AuthController
 {
     private $userModel;
     private $pageHandler;
@@ -38,8 +38,13 @@ class UserController
                             'name' => $user[0]['name'],
                             'role' => $user[0]['role'],
                         ];
-                        // echo "Mot de passe correct. Connexion réussie.";
-                        header("Location: /");
+                        // Rediriger l'utilisateur en fonction de son rôle
+                        if ($user[0]['role'] === 'admin') {
+                            header("Location: /admin/dashboard/id=" . $user[0]['id']);
+                        } else {
+                            header("Location: /user/dashboard/id=" . $user[0]['id']);
+                        }
+                        exit();
                     } else {
                         $this->pageHandler->setErrorMessage("Mot de passe incorrect.");
                     }
