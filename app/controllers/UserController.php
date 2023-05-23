@@ -15,44 +15,33 @@ class UserController
         $this->pageHandler = new PageHandler();
     }
 
-    function show_register_form()
-    {
-        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-            $title = Register()[0];
-            $content = Register()[1];
-            $this->pageHandler->setTitle($title);
-            $this->pageHandler->setContent($content);
-            $this->pageHandler->render();
-        }
+    function login(){
+        $title = Login()[0];
+        $content = Login()[1];
+        $this->pageHandler->setTitle($title);
+        $this->pageHandler->setContent($content);
+        $this->pageHandler->render();
     }
 
-    function show_login_form()
-    {
-        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-            $title = Login()[0];
-            $content = Login()[1];
-            $this->pageHandler->setTitle($title);
-            $this->pageHandler->setContent($content);
-            $this->pageHandler->render();
-        }
-    }
+    function register(){
+        $title = Register()[0];
+        $content = Register()[1];
+        $this->pageHandler->setTitle($title);
+        $this->pageHandler->setContent($content);
+        
 
-    function register_user()
-    {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-            if (
+            if(
                 isset($_POST['username']) && isset($_POST['email'])
                 && isset($_POST['password']) && $_POST['email'] != ""
                 && $_POST['password'] != "" && $_POST['email'] != ""
-            ) {
-                // Récupérer les données du formulaire
+            ){
                 $name = $_POST['username'];
                 $email = $_POST['email'];
                 $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-
-                // Valider les données ici si nécessaire
-
+                
+               
+                
                 // Créer un tableau avec les données
                 $data = [
                     'name' => $name,
@@ -60,32 +49,32 @@ class UserController
                     'password' => $password,
                 ];
 
-                // Appeler la méthode create_user du modèle
-                $user = $this->userModel->create_user($data);
+                // Verifier si l'utilisateur exist dans la base de donnée
+                $user_exist = $this->userModel->get_user_by_name_email($data);
+                
+                if(count($user_exist) > 0){
+                    $this->pageHandler->setErrorMessage("User alredy exist");
+                }else{
+                    // Appeler la méthode create_user du modèle
+                    $user = $this->userModel->create_user($data);
+                    if (count($user) > 0) {
+                        $this->pageHandler->setMessage("User created successfully");
+                    } else {
+                        $this->pageHandler->setErrorMessage("Error on creating user");
+                    }
+                }
+
                 $title = Register()[0];
                 $content = Register()[1];
                 $this->pageHandler->setTitle($title);
                 $this->pageHandler->setContent($content);
 
-                if (count($user) > 0) {
-                    $this->pageHandler->setMessage("User created successfully");
-                } else {
-                    $this->pageHandler->setErrorMessage("Error on creating user");
-                }
-
-                $this->pageHandler->render();
-            } else {
-                $title = Register()[0];
-                $content = Register()[1];
-                $this->pageHandler->setTitle($title);
-                $this->pageHandler->setErrorMessage("Insufficient information");
-                $this->pageHandler->render();
+            }else{
+                $this->pageHandler->setErrorMessage("Insufficient information. Please fill in all required fields.");
             }
         }
+        $this->pageHandler->render();
+
     }
 
-    function login()
-    {
-        // TODO: Implementation du login
-    }
 }

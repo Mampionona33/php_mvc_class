@@ -30,19 +30,10 @@ switch ($uri) {
         }
         break;
     case '/login':
-        if (isset($_SESSION["user"])) {
-            // Utilisateur déjà connecté, rediriger vers Dashboard
-            // header("Location: /dashboard");
-            exit();
-        } else {
-            $userController->show_login_form();
-        }
+        $userController->login();
         break;
-    case '/register':
-        $userController->show_register_form();
-        if(isset($_POST)){
-            $userController->register_user();
-        }
+        case '/register':
+            $userController->register();
         break;
     default:
         http_response_code(404);

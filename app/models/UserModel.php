@@ -1,6 +1,7 @@
 <?php
 require_once "../app/lib/create_table.php";
 require_once "../app/lib/create_data.php";
+require_once "../app/lib/get_data.php";
 
 class UserModel
 {
@@ -53,4 +54,11 @@ class UserModel
     function create_user($data){
        return create_data($this->nom_table,$data);
     }
+
+    function get_user_by_name_email($new_user) {
+        $conditions = "name='" . $new_user['name'] . "' AND email='" . $new_user['email'] . "'";
+        $user_exist = get_data($this->nom_table, [], $conditions);
+        return $user_exist;
+    }
+    
 }
