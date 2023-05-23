@@ -5,9 +5,10 @@ ini_set('display_errors', '1');
 // ----------------------------
 
 // Inclure les fichiers nécessaires
-// require_once "./app/models/UserModel.php";
 require_once "controllers/UserController.php";
 
+// Démarrer la session
+session_start();
 
 $uri = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
 
@@ -26,18 +27,17 @@ switch ($uri) {
     case '/':
         if (isset($_GET)) {
             http_response_code(200);
-            $content = "Hello word";
+            echo "Hello word";
         }
-    break;
+        break;
     case '/login':
         $userController->login();
-    break;
+        break;
     case '/register':
         $userController->register();
-    break;
+        break;
     default:
         http_response_code(404);
         include_once "views/page_not_found.php";
         break;
 }
-

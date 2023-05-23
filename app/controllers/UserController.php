@@ -15,33 +15,37 @@ class UserController
         $this->pageHandler = new PageHandler();
     }
 
-    function login(){
+    function login()
+    {
         $title = Login()[0];
         $content = Login()[1];
         $this->pageHandler->setTitle($title);
         $this->pageHandler->setContent($content);
 
-        if($_SERVER['REQUEST_METHOD']==='POST'){
-            if(isset($_POST["username"]) && isset($_POST["password"])){
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (isset($_POST["username"]) && isset($_POST["password"])) {
                 $name = $_POST["username"];
                 $password = $_POST["password"];
                 $user = $this->userModel->get_user_by_name_email(['name' => $name]);
-                if(count($user) > 0){
+                if (count($user) > 0) {
                     $storedPasswordHash = $user[0]['password'];
-    
+
                     // Vérifier si le mot de passe soumis correspond au hachage stocké
-                    if(password_verify($password, $storedPasswordHash)){
-                        // Mot de passe correct
-                        // Effectuer les actions appropriées après la connexion réussie
-                        // ...
-                        echo "Mot de passe correct. Connexion réussie.";
-                    }else{
-                        // Mot de passe incorrect
-                        echo "Mot de passe incorrect.";
+                    if (password_verify($password, $storedPasswordHash)) {
+                        // Enregistrer les informations utilisateur dans la session
+                        $_SESSION['user'] = [
+                            'id' => $user[0]['id'],
+                            'name' => $user[0]['name'],
+                            'role' => $user[0]['role'],
+                        ];
+                        // echo "Mot de passe correct. Connexion réussie.";
+                        header("Location: /");
+                    } else {
+                        $this->pageHandler->setErrorMessage("Mot de passe incorrect.");
                     }
-                }else{
+                } else {
                     // Utilisateur non trouvé
-                    echo "Utilisateur non trouvé.";
+                    $this->pageHandler->setErrorMessage("Utilisateur non trouvé.");
                 }
             }
         }
@@ -49,24 +53,25 @@ class UserController
         $this->pageHandler->render();
     }
 
-    function register(){
+    function register()
+    {
         $title = Register()[0];
         $content = Register()[1];
         $this->pageHandler->setTitle($title);
         $this->pageHandler->setContent($content);
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if(
+            if (
                 isset($_POST['username']) && isset($_POST['email'])
                 && isset($_POST['password']) && $_POST['email'] != ""
                 && $_POST['password'] != "" && $_POST['email'] != ""
-            ){
+            ) {
                 $name = $_POST['username'];
                 $email = $_POST['email'];
                 $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-                
-               
-                
+
+
+
                 // Créer un tableau avec les données
                 $data = [
                     'name' => $name,
@@ -76,10 +81,10 @@ class UserController
 
                 // Verifier si l'utilisateur exist dans la base de donnée
                 $user_exist = $this->userModel->get_user_by_name_email($data);
-                
-                if(count($user_exist) > 0){
+
+                if (count($user_exist) > 0) {
                     $this->pageHandler->setErrorMessage("User alredy exist");
-                }else{
+                } else {
                     // Appeler la méthode create_user du modèle
                     $user = $this->userModel->create_user($data);
                     if (count($user) > 0) {
@@ -93,13 +98,10 @@ class UserController
                 $content = Register()[1];
                 $this->pageHandler->setTitle($title);
                 $this->pageHandler->setContent($content);
-
-            }else{
+            } else {
                 $this->pageHandler->setErrorMessage("Insufficient information. Please fill in all required fields.");
             }
         }
         $this->pageHandler->render();
-
     }
-
 }
