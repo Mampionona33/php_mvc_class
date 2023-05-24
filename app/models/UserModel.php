@@ -70,5 +70,11 @@ class UserModel
         return $user_exist;
     }
     
-    
+    public function getUserById($userId)
+    {
+        $conditions = "id = " . $userId;
+        $user = get_data($this->nom_table, [], $conditions);
+        return $user;
+    }
+
 }

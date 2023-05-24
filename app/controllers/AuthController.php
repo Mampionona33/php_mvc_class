@@ -40,9 +40,9 @@ class AuthController
                         ];
                         // Rediriger l'utilisateur en fonction de son rôle
                         if ($user[0]['role'] === 'admin') {
-                            header("Location: /admin/dashboard/id=" . $user[0]['id']);
+                            header("Location: /admin/dashboard?id=" . $user[0]['id']);
                         } else {
-                            header("Location: /user/dashboard/id=" . $user[0]['id']);
+                            header("Location: /user/dashboard?id=" . $user[0]['id']);
                         }
                         exit();
                     } else {
@@ -108,5 +108,12 @@ class AuthController
             }
         }
         $this->pageHandler->render();
+    }
+
+    public function logout()
+    {
+        session_destroy();
+        header("Location: /login");
+        exit();
     }
 }
