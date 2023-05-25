@@ -8,5 +8,9 @@ class TaskHandler{
     public function __construct(){
         $this->taskModel=new TaskModel();
     }
+
+    function render_tasks_list($user_id){
+        var_dump ($this->taskModel->get_user_tasks($user_id));
+    }
 }
 ?>

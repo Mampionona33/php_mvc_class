@@ -5,7 +5,7 @@ require_once "../app/lib/get_data.php";
 
 class TaskModel
 {
-    public $col =[
+    public $col = [
         [
             'name' => 'id_task',
             'type' => 'INT',
@@ -48,7 +48,21 @@ class TaskModel
             'required' => true,
             'auto_increment' => false,
         ],
+        [
+            'name' => 'start_time',
+            'type' => 'DATETIME',
+            'required' => false,
+            'auto_increment' => false,
+        ],
+        [
+            'name' => 'total_duration',
+            'type' => 'INT default 0',
+            'required' => false,
+            'auto_increment' => false,
+        ],
     ];
+    
+    
 
     public $nom_table = "tasks";
 
@@ -60,6 +74,15 @@ class TaskModel
         return create_table($this->nom_table,$this->col);
     }
 
+    function create_task($task_data){
+        return create_data($this->nom_table,$task_data);
+    }
+
+    function get_user_tasks($user_id){
+        $conditions = "id = " . $user_id;
+        $tasks = get_data($this->nom_table, [], $conditions);
+        return $tasks;
+    }
 
 }
 

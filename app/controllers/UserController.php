@@ -1,20 +1,24 @@
 <?php
 require_once "../app/models/UserModel.php";
 require_once "PageHandler.php";
+require_once "TaskHandler.php";
 
 class UserController
 {
     private $userModel;
     private $pageHandler;
+    private $taskHandler;
 
     public function __construct()
     {
         $this->userModel = new UserModel();
         $this->pageHandler = new PageHandler();
+        $this->taskHandler = new TaskHandler();
     }
 
     public function dashboard($userId)
     {
+        $this->taskHandler->render_tasks_list($userId);
         if ($_SESSION["user"]["id"] == $userId) {
             $user = $this->userModel->getUserById($userId);
 
