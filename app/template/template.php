@@ -13,7 +13,15 @@
     <div class="container">
         <?php echo isset($message) ? "<div class=\"message_container\">$message</div>" : null; ?>
         <?php echo isset($errorMessage) ? "<div class=\"erreur_container\">$errorMessage</div>" : null; ?>
-        <?php echo isset($content) ? $content : null; ?>
+        <div class="navbar">
+            <?php echo isset($navbarContent) ? $navbarContent : null; ?>
+        </div>
+        <div class="side_bar">
+            <?php echo isset($sidebarContent) ? $sidebarContent : null; ?>
+        </div>
+        <div class="content">
+            <?php echo isset($content) ? $content : null; ?>
+        </div>
     </div>
     <script src="../dist/app-bundle.js"></script>
 </body>
