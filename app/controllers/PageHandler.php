@@ -7,6 +7,8 @@ class PageHandler
 
     private $title;
     private $content;
+    private $navbarContent;
+    private $sidebarContent;
 
     public function __construct()
     {
@@ -22,6 +24,16 @@ class PageHandler
         $this->content = $content;
     }
 
+    public function setNavbarContent($navbarContent)
+    {
+        $this->navbarContent = $navbarContent;
+    }
+
+    public function setSidebarContent($sidebarContent)
+    {
+        $this->sidebarContent = $sidebarContent;
+    }
+
     public function setMessage($message)
     {
         $this->message = $message;
@@ -34,6 +46,9 @@ class PageHandler
 
     public function render()
     {
+        /*  <<<HTML est une balise heredoc : Elle est utilisée 
+        pour définir une chaîne de caractères multilignes sans
+        avoir à échapper les guillemets ou les apostrophes. */
         echo <<<HTML
         <!DOCTYPE html>
         <html lang="fr">
@@ -48,7 +63,15 @@ class PageHandler
             <div class="container">
                 {$this->renderMessage()}
                 {$this->renderErrorMessage()}
-                {$this->getContent()}
+                <div class="navbar">
+                    {$this->getNavbarContent()}
+                </div>
+                <div class="side_bar">
+                    {$this->getSidebarContent()}
+                </div>
+                <div class="content">
+                    {$this->getContent()}
+                </div>
             </div>
             <script src="../dist/app-bundle.js"></script>
         </body>
@@ -74,5 +97,15 @@ HTML;
     private function getContent()
     {
         return isset($this->content) ? $this->content : null;
+    }
+
+    private function getNavbarContent()
+    {
+        return isset($this->navbarContent) ? $this->navbarContent : null;
+    }
+
+    private function getSidebarContent()
+    {
+        return isset($this->sidebarContent) ? $this->sidebarContent : null;
     }
 }
