@@ -46,17 +46,25 @@ class AuthController
                         }
                         exit();
                     } else {
-                        $this->pageHandler->setErrorMessage("Mot de passe incorrect.");
+                        // $this->pageHandler->setErrorMessage("Nom d'utilisateur ou mot de passe incorrect.");
+                        $_SESSION['error_message'] = "Nom d'utilisateur ou mot de passe incorrect.";
                     }
                 } else {
                     // Utilisateur non trouvé
-                    $this->pageHandler->setErrorMessage("Utilisateur non trouvé.");
+                    // $this->pageHandler->setErrorMessage("Utilisateur non trouvé.");
+                    $_SESSION['error_message'] = "Utilisateur non trouvé.";
                 }
             }
         }
 
+        if (isset($_SESSION['error_message'])) {
+            $this->pageHandler->setErrorMessage($_SESSION['error_message']);
+            unset($_SESSION['error_message']);
+        }
+
         $this->pageHandler->render();
     }
+    
 
     function register()
     {
