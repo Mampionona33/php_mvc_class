@@ -1,18 +1,15 @@
 <?php
 require_once "../app/models/UserModel.php";
-require_once "PageHandler.php";
 require_once "TaskHandler.php";
 
 class UserController
 {
     private $userModel;
-    private $pageHandler;
     private $taskHandler;
 
     public function __construct()
     {
         $this->userModel = new UserModel();
-        $this->pageHandler = new PageHandler();
         $this->taskHandler = new TaskHandler();
     }
 
@@ -24,30 +21,39 @@ class UserController
 
             if (!$user) {
                 $errorMessage = "Utilisateur introuvable.";
-                $this->pageHandler->setErrorMessage($errorMessage);
+                $this->setErrorMessage($errorMessage);
             } elseif (!array_key_exists('role', $user[0])) {
                 $errorMessage = "Accès non autorisé : la clé 'role' est manquante dans les données de l'utilisateur.";
-                $this->pageHandler->setErrorMessage($errorMessage);
+                $this->setErrorMessage($errorMessage);
             } elseif ($user[0]['role'] != 'user') {
                 $errorMessage = "Accès non autorisé : l'utilisateur n'est pas un utilisateur régulier.";
-                $this->pageHandler->setErrorMessage($errorMessage);
+                $this->setErrorMessage($errorMessage);
             } else {
                 $userDashboardFile = "../app/views/User_dashboard.php";
-    
+
                 if (file_exists($userDashboardFile)) {
                     $userDashboardContent = file_get_contents($userDashboardFile);
-                    $this->pageHandler->setTitle("Dashboard");
-                    $this->pageHandler->setContent($userDashboardContent);
+                    $title = "Dashboard";
+                    $navbarContent = "test"; // Contenu de la barre de navigation
+                    $sidebarContent = ""; // Contenu de la barre latérale
+                    $content = $userDashboardContent;
+
+                    ob_start(); // Démarrer la temporisation de la sortie
+                    include "../app/template/template.php"; // Inclure le template
+                    ob_end_flush(); // Envoyer la sortie mise en tampon vers le navigateur
                 } else {
                     $errorMessage = "Le fichier User_dashboard.php n'existe pas.";
-                    $this->pageHandler->setErrorMessage($errorMessage);
+                    $this->setErrorMessage($errorMessage);
                 }
             }
         } else {
             $errorMessage = "Accès non autorisé : l'utilisateur connecté ne correspond pas à l'utilisateur demandé.";
-            $this->pageHandler->setErrorMessage($errorMessage);
+            $this->setErrorMessage($errorMessage);
         }
+    }
 
-        $this->pageHandler->render();
+    private function setErrorMessage($errorMessage)
+    {
+        $_SESSION["errorMessage"] = $errorMessage;
     }
 }
