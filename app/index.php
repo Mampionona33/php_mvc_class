@@ -62,6 +62,10 @@ switch ($pathname) {
         $content = ob_get_clean(); // Récupérer le contenu généré par la méthode du contrôleur
         include "template/template.php";
         break;
+    case '/user/create_task':
+        $title = "Create New Task";
+        $userController->create_task();
+    break;
     case '/admin/':
         echo "admin dashboard";
         break;

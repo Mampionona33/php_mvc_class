@@ -11,6 +11,20 @@ class UserController
     {
         $this->userModel = new UserModel();
         $this->taskHandler = new TaskHandler();
+        }
+
+    private function renderNavbar()
+    {
+        require_once "../app/views/users/User_navbar.php";
+        $navbarContent = User_navbar(); // Contenu de la barre de navigation
+        return $navbarContent;
+    }
+
+    private function renderSidebar()
+    {
+        require_once "../app/views/users/User_sidebar.php";
+        $sidebarContent = User_sidebar($_SESSION["user"]["id"]); // Contenu de la barre latérale
+        return $sidebarContent;
     }
 
     public function dashboard($userId)
@@ -18,7 +32,7 @@ class UserController
         $this->taskHandler->render_tasks_list($userId);
         if ($_SESSION["user"]["id"] == $userId) {
             $user = $this->userModel->getUserById($userId);
-            
+
             if (!$user) {
                 http_response_code(401);
                 $errorMessage = "Utilisateur introuvable.";
@@ -30,11 +44,9 @@ class UserController
                 $errorMessage = "Accès non autorisé : l'utilisateur n'est pas un utilisateur régulier.";
             } else {
                 require_once "../app/views/users/User_dashboard.php";
-                require_once "../app/views/users/User_navbar.php";
-                require_once "../app/views/users/User_sidebar.php";
                 $userDashboardContent = User_dashboard();
-                $navbarContent = User_navbar(); // Contenu de la barre de navigation
-                $sidebarContent = User_sidebar($userId);  // Contenu de la barre latérale
+                $navbarContent = $this->renderNavbar();
+                $sidebarContent = $this->renderSidebar();
                 $content = $userDashboardContent;
             }
         } else {
@@ -43,5 +55,14 @@ class UserController
         }
         include "../app/template/template.php"; // Inclure le template
     }
-    
+
+    public function create_task()
+    {
+        include_once "../app/views/users/task_formulaire.php";
+        $title = "Create new task";
+        $navbarContent = $this->renderNavbar();
+        $sidebarContent = $this->renderSidebar();
+        $content = task_formulaire();
+        include "../app/template/template.php";
+    }
 }
