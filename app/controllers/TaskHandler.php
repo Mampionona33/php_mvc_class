@@ -10,6 +10,7 @@ class TaskHandler{
     }
 
     function render_tasks_list($user_id){
+        echo "form render_tasks_list ";
         var_dump ($this->taskModel->get_user_tasks($user_id));
     }
 }

@@ -54,9 +54,13 @@ switch ($pathname) {
         }
         break;
     case '/user/dashboard':
-        // Extraire l'ID de l'utilisateur à partir de l'URL
         $userId = $_GET['id'];
-        $userController->dashboard($userId);
+
+        ob_start(); // Démarrer la temporisation de sortie
+        $userController->dashboard($userId); // Exécuter la méthode du contrôleur
+        $title = "Dashboard";
+        $content = ob_get_clean(); // Récupérer le contenu généré par la méthode du contrôleur
+        include "template/template.php";
         break;
     case '/admin/':
         echo "admin dashboard";
@@ -72,6 +76,6 @@ switch ($pathname) {
         break;
     default:
         http_response_code(404);
-        include_once "views/page_not_found.php";
+        include "views/page_not_found.php";
         break;
 }
