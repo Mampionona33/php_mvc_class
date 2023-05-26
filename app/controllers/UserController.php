@@ -11,7 +11,7 @@ class UserController
     {
         $this->userModel = new UserModel();
         $this->taskHandler = new TaskHandler();
-        }
+    }
 
     private function renderNavbar()
     {
@@ -56,13 +56,33 @@ class UserController
         include "../app/template/template.php"; // Inclure le template
     }
 
-    public function create_task()
+    public function handle_form_create_task()
     {
         include_once "../app/views/users/task_formulaire.php";
         $title = "Create new task";
         $navbarContent = $this->renderNavbar();
         $sidebarContent = $this->renderSidebar();
         $content = task_formulaire();
+
+        if (isset($_POST)) {
+            if (
+                isset($_POST["id"]) &&
+                isset($_POST["task_name"]) &&
+                isset($_POST["num_task"]) &&
+                isset($_POST["id_type_task"]) &&
+                isset($_POST["nbr_before"]) &&
+                isset($_POST["nbr_after"])
+            ) {
+                $data = $_POST;
+                $data["start_time"] = date('Y-m-d H:i:s');
+
+                if ($this->taskHandler->create_user_task($data)) {
+                    $message = "Task create successfully";
+                } else {
+                    $message = "Error occured when trying to create data";
+                }
+            }
+        }
         include "../app/template/template.php";
     }
 }

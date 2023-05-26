@@ -2,9 +2,8 @@
 
 function task_formulaire($task = null)
 {
-    return '<form action="process_task.php" method="POST">
+    return '<form action="create_task" method="POST">
         <input type="hidden" name="id" value="' . ($_SESSION["user"]["id"] ?? '') . '">    
-        <input type="hidden" name="id_task" value="' . ($task ? $task->id_task : '') . '">
         
         <label for="task_name">Nom de la tâche:</label>
         <input type="text" name="task_name" value="' . ($task ? $task->task_name : '') . '" required>
@@ -24,4 +23,3 @@ function task_formulaire($task = null)
         <input type="submit" value="Enregistrer">
     </form>';
 }
-?>

@@ -62,8 +62,6 @@ class TaskModel
         ],
     ];
     
-    
-
     public $nom_table = "tasks";
 
     public function __construct(){
@@ -85,5 +83,3 @@ class TaskModel
     }
 
 }
-
-?>

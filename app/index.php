@@ -64,8 +64,8 @@ switch ($pathname) {
         break;
     case '/user/create_task':
         $title = "Create New Task";
-        $userController->create_task();
-    break;
+        $userController->handle_form_create_task();
+        break;
     case '/admin/':
         echo "admin dashboard";
         break;
