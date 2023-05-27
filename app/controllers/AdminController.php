@@ -1,5 +1,6 @@
 <?php
 require_once "../app/models/UserModel.php";
+require_once "../app/lib/Custom_table.php";
 require_once "PageHandler.php";
 // Include any other necessary files
 
@@ -8,6 +9,7 @@ class AdminController
     private $userModel;
     private $pageHandler;
     private $admin_dashboard;
+    private $custom_table;
 
     public function __construct()
     {
@@ -15,19 +17,36 @@ class AdminController
         $this->pageHandler = new PageHandler();
     }
 
-    public function dashboard()
-    {
-        // Code for the admin dashboard interface
-        $adminDashboardFile = "../app/views/Admin_dashboard.php";
 
-        if (file_exists($adminDashboardFile)) {
-            $adminDashboardContent = file_get_contents($adminDashboardFile);
-            $this->pageHandler->setContent($adminDashboardContent);
-            $this->pageHandler->render();
+    private function renderNavbar()
+    {
+        require_once "../app/views/users/User_navbar.php";
+        $navbarContent = User_navbar(); // Contenu de la barre de navigation
+        return $navbarContent;
+    }
+
+    private function renderSidebar()
+    {
+        require_once "../app/views/admin/Admin_sidebar.php";
+        $sidebarContent = Admin_sidebar($_SESSION["user"]["id"]); // Contenu de la barre latérale
+        return $sidebarContent;
+    }
+
+    public function dashboard($admin_id)
+    {
+        if ($_SESSION["user"]["id"] == $admin_id) {
+            // Code for the admin dashboard interface
+            $users = $this->userModel->getUsers();
+            $table_header = ["id", "name", "email", "pass", "role"];
+            $title = "Dashboard";
+            $navbarContent = $this->renderNavbar();
+            $sidebarContent = $this->renderSidebar();
+
+            $this->custom_table = new Custom_table($table_header, $users);
+            $content = $this->custom_table->render();
         } else {
-            $errorMessage = "Le fichier Admin_dashboard.php n'existe pas.";
-            $this->pageHandler->setErrorMessage($errorMessage);
-            $this->pageHandler->render();
+            $errorMessage = "Accès non autorisé : l'utilisateur connecté ne correspond pas à l'utilisateur demandé.";
         }
+        include "../app/template/template.php"; // Inclure le template
     }
 }

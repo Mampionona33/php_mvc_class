@@ -7,6 +7,7 @@ ini_set('display_errors', '1');
 // Inclure les fichiers nécessaires
 require_once "controllers/AuthController.php";
 require_once "controllers/UserController.php";
+require_once "controllers/AdminController.php";
 
 // Démarrer la session
 session_start();
@@ -28,6 +29,7 @@ if (!isset($_SESSION["user"])) {
 // Créer une instance de AuthController
 $authController = new AuthController();
 $userController = new UserController();
+$adminController = new AdminController();
 
 // Redirection en fonction du rôle de l'utilisateur
 if (isset($_SESSION["user"])) {
@@ -66,8 +68,9 @@ switch ($pathname) {
         $title = "Create New Task";
         $userController->handle_form_create_task();
         break;
-    case '/admin/':
-        echo "admin dashboard";
+    case '/admin/dashboard':
+        $amdin_id = $_GET["id"];
+        $adminController->dashboard($amdin_id);
         break;
     case '/login':
         $authController->login();
