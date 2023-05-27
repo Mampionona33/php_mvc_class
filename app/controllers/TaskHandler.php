@@ -15,7 +15,6 @@ class TaskHandler
 
     function render_tasks_list($user_id)
     {
-        include_once "../app/views/users/User_table_dashboard.php";
         include_once "../app/lib/Custom_table.php";
         $table_headers = ["Type de tâche", "Numéro de tâche", "Nombre avant", "Nombre après", "Durée du traitement"];
         $user_tasks = $this->taskModel->get_user_tasks($user_id);
