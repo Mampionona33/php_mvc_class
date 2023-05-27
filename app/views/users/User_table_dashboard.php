@@ -20,14 +20,14 @@ function User_table_dashboard($tasks)
         $taskType = $task['id_type_task'];
         $beforeNumber = $task['nbr_before'];
         $afterNumber = $task['nbr_after'];
-        $processingTime = $task['processing_time'];
+        // $processingTime = $task['processing_time'];
 
         $tableContent .= "<tr>
                             <td>$taskNumber</td>
                             <td>$taskType</td>
                             <td>$beforeNumber</td>
                             <td>$afterNumber</td>
-                            <td>$processingTime</td>
+                            <td>Placeholder Processing time</td>
                             <td>
                                 <button onclick=\"playTask($taskId)\">Play</button>
                                 <button onclick=\"editTask($taskId)\">Edit</button>

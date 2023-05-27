@@ -13,8 +13,9 @@ class TaskHandler
 
     function render_tasks_list($user_id)
     {
-        echo "form render_tasks_list ";
-        var_dump($this->taskModel->get_user_tasks($user_id));
+        include_once "../app/views/users/User_table_dashboard.php";
+        $user_tasks = $this->taskModel->get_user_tasks($user_id);
+        return User_table_dashboard($user_tasks);
     }
 
     function create_user_task($task)

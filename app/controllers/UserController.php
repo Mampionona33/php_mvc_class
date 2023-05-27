@@ -44,7 +44,7 @@ class UserController
                 $errorMessage = "Accès non autorisé : l'utilisateur n'est pas un utilisateur régulier.";
             } else {
                 require_once "../app/views/users/User_dashboard.php";
-                $userDashboardContent = User_dashboard();
+                $userDashboardContent = $this->taskHandler->render_tasks_list($userId);
                 $navbarContent = $this->renderNavbar();
                 $sidebarContent = $this->renderSidebar();
                 $content = $userDashboardContent;
