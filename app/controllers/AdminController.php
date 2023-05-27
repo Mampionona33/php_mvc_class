@@ -37,12 +37,18 @@ class AdminController
         if ($_SESSION["user"]["id"] == $admin_id) {
             // Code for the admin dashboard interface
             $users = $this->userModel->getUsers();
-            $table_header = ["id", "name", "email", "pass", "role"];
+            $table_header = ["name", "email", "role"];
             $title = "Dashboard";
             $navbarContent = $this->renderNavbar();
             $sidebarContent = $this->renderSidebar();
 
-            $this->custom_table = new Custom_table($table_header, $users);
+            $users = array_map(function ($user) {
+                unset($user["password"]);
+                unset($user["id"]);
+                return $user;
+            }, $users);
+
+            $this->custom_table = new Custom_table($table_header, $users, true, true);
             $content = $this->custom_table->render();
         } else {
             $errorMessage = "Accès non autorisé : l'utilisateur connecté ne correspond pas à l'utilisateur demandé.";
