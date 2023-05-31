@@ -73,7 +73,8 @@ switch ($pathname) {
         $adminController->dashboard($amdin_id);
         break;
     case "/admin/manage_task_type":
-        $adminController->manage_task_type();
+        $amdin_id = $_GET["id"];
+        $adminController->manage_task_type($amdin_id);
         break;
     case '/login':
         $authController->login();
