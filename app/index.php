@@ -65,13 +65,15 @@ switch ($pathname) {
         include "template/template.php";
         break;
     case '/user/create_task':
-        $title = "Create New Task";
         $userController->handle_form_create_task();
         break;
     case '/admin/dashboard':
     case "/admin/manage_users":
         $amdin_id = $_GET["id"];
         $adminController->dashboard($amdin_id);
+        break;
+    case "/admin/manage_task_type":
+        $adminController->manage_task_type();
         break;
     case '/login':
         $authController->login();

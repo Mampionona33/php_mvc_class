@@ -59,6 +59,7 @@ class UserController
     public function handle_form_create_task()
     {
         include_once "../app/views/users/task_formulaire.php";
+
         $title = "Create new task";
         $navbarContent = $this->renderNavbar();
         $sidebarContent = $this->renderSidebar();
@@ -78,6 +79,10 @@ class UserController
 
                 if ($this->taskHandler->create_user_task($data)) {
                     $message = "Task create successfully";
+                    ob_start();
+                    header("Location: /user/dashboard?id=" . $_POST["id"]);
+                    ob_end_flush();
+                    exit();
                 } else {
                     $message = "Error occured when trying to create data";
                 }

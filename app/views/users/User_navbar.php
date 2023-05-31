@@ -5,7 +5,3 @@ function User_navbar(){
   HTML;
 }
 ?>
-
-
-
-

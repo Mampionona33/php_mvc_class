@@ -37,14 +37,14 @@ class AdminController
         if ($_SESSION["user"]["id"] == $admin_id) {
             // Code for the admin dashboard interface
             $users = $this->userModel->getUsers();
-            $table_header = ["name", "email", "role"];
+            $table_header = ["id", "name", "email", "role"];
             $title = "Dashboard";
             $navbarContent = $this->renderNavbar();
             $sidebarContent = $this->renderSidebar();
 
             $users = array_map(function ($user) {
                 unset($user["password"]);
-                unset($user["id"]);
+                // unset($user["id"]);
                 return $user;
             }, $users);
 
@@ -53,6 +53,15 @@ class AdminController
         } else {
             $errorMessage = "Accès non autorisé : l'utilisateur connecté ne correspond pas à l'utilisateur demandé.";
         }
+        include "../app/template/template.php"; // Inclure le template
+    }
+
+    public function manage_task_type()
+    {
+        $title = "Manage task type";
+        $navbarContent = $this->renderNavbar();
+        $sidebarContent = $this->renderSidebar();
+        $content = "welcome to task type";
         include "../app/template/template.php"; // Inclure le template
     }
 }
