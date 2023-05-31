@@ -64,7 +64,7 @@ class AuthController
 
         $this->pageHandler->render();
     }
-    
+
 
     function register()
     {
@@ -102,6 +102,7 @@ class AuthController
                     $user = $this->userModel->create_user($data);
                     if (count($user) > 0) {
                         $this->pageHandler->setMessage("User created successfully");
+                        header("Refresh:2; login");
                     } else {
                         $this->pageHandler->setErrorMessage("Error on creating user");
                     }
