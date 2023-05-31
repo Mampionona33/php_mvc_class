@@ -69,6 +69,7 @@ switch ($pathname) {
         $userController->handle_form_create_task();
         break;
     case '/admin/dashboard':
+    case "/admin/manage_users":
         $amdin_id = $_GET["id"];
         $adminController->dashboard($amdin_id);
         break;
