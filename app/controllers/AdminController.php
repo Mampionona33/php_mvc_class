@@ -2,6 +2,8 @@
 require_once "../app/models/UserModel.php";
 require_once "../app/lib/Custom_table.php";
 require_once "../app/models/TaskTypeModel.php";
+require_once "TaskTypeController.php";
+require_once "../app/lib/Custom_create_btn.php";
 
 require_once "PageHandler.php";
 // Include any other necessary files
@@ -13,12 +15,16 @@ class AdminController
     private $admin_dashboard;
     private $custom_table;
     private $taskTypeModel;
+    private $taskTypeController;
+    private $custom_create_btn;
 
     public function __construct()
     {
         $this->userModel = new UserModel;
         $this->pageHandler = new PageHandler();
         $this->taskTypeModel = new TaskTypeModel();
+        $this->taskTypeController = new TaskTypeController();
+        
     }
 
     private function renderNavbar()
@@ -52,7 +58,10 @@ class AdminController
             }, $users);
 
             $this->custom_table = new Custom_table($table_header, $users, true, true);
-            $content = $this->custom_table->render();
+            $this->custom_create_btn = new Custom_create_btn("create_user","create user");
+            $content = "";
+            $content .= $this->custom_create_btn->render();
+            $content .=  $this->custom_table->render();
         } else {
             $errorMessage = "Accès non autorisé : l'utilisateur connecté ne correspond pas à l'utilisateur demandé.";
         }
@@ -65,7 +74,7 @@ class AdminController
             $title = "Manage task type";
             $navbarContent = $this->renderNavbar();
             $sidebarContent = $this->renderSidebar();
-            // $content = $this->taskTypeModel->get_all_task_type();
+            $content =  $this->taskTypeController->Show_list_taskType();
         } else {
             $errorMessage = "Accès non autorisé : l'utilisateur connecté ne correspond pas à l'utilisateur demandé.";
         }
