@@ -14,7 +14,7 @@ class TaskTypeController
 
     public function Show_list_taskType()
     {
-        $table_header = ["id", "name", "email", "role"];
+        $table_header = ["id", "task type name", "task goal", "actions"];
         $task_type_list = $this->taskTypeModel->get_all_task_type();
         $this->custom_table = new Custom_table($table_header, $task_type_list, true, true);
         $this->custom_create_btn = new Custom_create_btn("create_task_type", "create task type");

@@ -76,6 +76,10 @@ switch ($pathname) {
         $amdin_id = $_GET["id"];
         $adminController->manage_task_type($amdin_id);
         break;
+    case "/admin/create_user":
+        $amdin_id = $_GET["id"];
+        $adminController->create_user($amdin_id);
+        break;
     case '/login':
         $authController->login();
         break;
